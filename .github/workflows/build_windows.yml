@@ -34,6 +34,7 @@ jobs:
       shell: powershell
       run: |
         vcpkg install boost
+        vcpkg integrate install
         $Env:Path += ";C:\msys64\usr\bin"
         cd ${{github.workspace}}
         mkdir deps
