@@ -33,7 +33,7 @@ jobs:
     - name: setup dependencies
       shell: powershell
       run: |
-        choco install boost-msvc-14.1
+        vcpkg install boost
         $Env:Path += ";C:\msys64\usr\bin"
         cd ${{github.workspace}}
         mkdir deps
