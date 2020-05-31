@@ -104,7 +104,7 @@ jobs:
         git checkout NoManhattan
         mkdir build
         cd build
-        cmake -G "Visual Studio 16 2019"  -DCMAKE_INCLUDE_PATH=%CMAKE_INC_PATH% ..
+        cmake -G "Visual Studio 16 2019"  -DCMAKE_INCLUDE_PATH=%CMAKE_INC_PATH% -DCMAKE_TOOLCHAIN_FILE=C:/vcpkg/scripts/buildsystems/vcpkg.cmake ..
         cmake --build . --config Release -j4
         
     - name: Run unittest core
