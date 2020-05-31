@@ -57,10 +57,10 @@ jobs:
     - name: Install Qt
       uses: jurplel/install-qt-action@v2
       with:
-        version: '5.14.2'
+        version: '5.15.0'
         host: 'windows'
         target: 'desktop'
-        arch: 'win64_msvc2017_64'
+        arch: 'win64_msvc2019_64'
         dir: '${{ github.workspace }}/qt5/'
         install-deps: 'true'
         modules: 'qtcharts qtwebengine'
@@ -92,7 +92,7 @@ jobs:
         CCACHE_MAXSIZE: "400M"
       run: |
         set PATH=${{github.workspace}}\deps\lib;%PATH%
-        set QTDIR=${{github.workspace}}\qt5\Qt\5.14.2\msvc2017_64
+        set QTDIR=${{github.workspace}}\qt5\Qt\5.15.0\msvc2019_64
         set CMAKE_INC_PATH=${{github.workspace}}/deps/include
         echo %BOOST_ROOT%
         echo %QTDIR%
@@ -104,7 +104,7 @@ jobs:
         mkdir build
         cd build
         cmake -G "Visual Studio 16 2019"  -DCMAKE_INCLUDE_PATH=%CMAKE_INC_PATH% ..
-        cmake --build . --config Release
+        cmake --build . --config Release -j4
         
     - name: Run unittest core
       shell: cmd
@@ -112,7 +112,8 @@ jobs:
       run: |
         echo %PATH%
         echo %QTDIR%
-        bin\UnitTestCore.exe
+        cd ${{github.workspace}}\BornAgain\build\bin
+        UnitTestCore.exe
           
     - name: Run unittest GUI
       shell: cmd
@@ -120,4 +121,5 @@ jobs:
       run: |
         echo %PATH%
         echo %QTDIR%
-        bin\UnitTestGUI.exe
+        cd ${{github.workspace}}\BornAgain\build\bin
+        UnitTestGUI.exe
