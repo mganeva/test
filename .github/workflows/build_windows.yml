@@ -33,6 +33,7 @@ jobs:
     - name: setup dependencies
       shell: powershell
       run: |
+        vcpkg install boost --triplet x64-windows
         $Env:Path += ";C:\msys64\usr\bin"
         cd ${{github.workspace}}
         mkdir deps
@@ -90,24 +91,20 @@ jobs:
         CCACHE_COMPRESSLEVEL: "6"
         CCACHE_MAXSIZE: "400M"
       run: |
-        set PATH=${{github.workspace}}\deps\lib;%BOOST_ROOT_1_72_0%;%PATH%
+        vcpkg integrate install
+        set PATH=${{github.workspace}}\deps\lib;%PATH%
         set QTDIR=${{github.workspace}}\qt5\Qt\5.15.0\msvc2019_64
         set CMAKE_INC_PATH=${{github.workspace}}/deps/include
-        set BOOST_ROOT=%BOOST_ROOT_1_72_0%
         echo %BOOST_ROOT%
         echo %QTDIR%
         echo %CMAKE_INC_PATH%
-        dir %BOOST_ROOT_1_72_0%
-        dir %BOOST_ROOT_1_72_0%\include
-        dir %BOOST_ROOT_1_72_0%\lib
-        dir %BOOST_ROOT_1_72_0%\libs
         cd ${{github.workspace}}
         git clone --recursive https://github.com/gpospelov/BornAgain.git
         cd BornAgain
         git checkout NoManhattan
         mkdir build
         cd build
-        cmake -G "Visual Studio 16 2019" -DBOOST_ROOT=%BOOST_ROOT% -DCMAKE_INCLUDE_PATH=%CMAKE_INC_PATH% ..
+        cmake -G "Visual Studio 16 2019" -DCMAKE_INCLUDE_PATH=%CMAKE_INC_PATH% -DCMAKE_TOOLCHAIN_FILE=C:/vcpkg/scripts/buildsystems/vcpkg.cmake ..
         cmake --build . --config Release -j4
         
     - name: Run unittest core
