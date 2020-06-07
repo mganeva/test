@@ -67,6 +67,8 @@ jobs:
         CCACHE_MAXSIZE: "400M"
       run: |
         cd $HOME
+        git config --global user.email "builder@bornagainproject.org"
+        git config --global user.name "Github Actions"
         git clone --recursive https://github.com/scgmlz/BornAgain.git
         cd BornAgain
         git checkout develop
