@@ -70,6 +70,7 @@ jobs:
         git clone --recursive https://github.com/scgmlz/BornAgain.git
         cd BornAgain
         git checkout develop
+        git revert -m 1 e828c59
         mkdir build && cd build
         cmake -DCMAKE_INSTALL_PREFIX=/usr/local -DCMAKE_C_COMPILER_LAUNCHER=ccache \
           -DCMAKE_CXX_COMPILER_LAUNCHER=ccache ../
